@@ -1,72 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Bubble Chart</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <title>Bubble Map</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #fefefe;
+    }
+    .map-container {
+      position: relative;
+      width: 600px;
+      height: 600px;
+    }
+    .bubble {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: #ffb3b3;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-weight: bold;
+    }
+    .center {
+      top: 250px;
+      left: 250px;
+      background: #ff9999;
+    }
+    .bubble1 { top: 80px; left: 250px; background: #a3d5ff; }
+    .bubble2 { top: 150px; left: 420px; background: #d9b3ff; }
+    .bubble3 { top: 350px; left: 420px; background: #b3ffd9; }
+    .bubble4 { top: 420px; left: 250px; background: #a3d5ff; }
+    .bubble5 { top: 350px; left: 80px; background: #d9b3ff; }
+    .bubble6 { top: 150px; left: 80px; background: #b3ffd9; }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  </style>
 </head>
 <body>
-  <canvas id="myBubbleChart" width="400" height="400"></canvas>
-  <script>
-    const ctx = document.getElementById('myBubbleChart').getContext('2d');
+  <div class="map-container">
+    <canvas width="600" height="600"></canvas>
+    <div class="bubble center">Main Concept</div>
+    <div class="bubble bubble1">Concept 1</div>
+    <div class="bubble bubble2">Concept 2</div>
+    <div class="bubble bubble3">Concept 3</div>
+    <div class="bubble bubble4">Concept 4</div>
+    <div class="bubble bubble5">Concept 5</div>
+    <div class="bubble bubble6">Concept 6</div>
+  </div>
 
-    const bubbleChart = new Chart(ctx, {
-      type: 'bubble',
-      data: {
-        datasets: [
-          {
-            label: 'Ability Scores',
-            data: [
-              { x: 1, y: 8, r: 5 },   // STR
-              { x: 2, y: 12, r: 10 }, // DEX
-              { x: 3, y: 12, r: 10 }, // CON
-              { x: 4, y: 4, r: 4 },   // INT
-              { x: 5, y: 10, r: 8 },  // WIS
-              { x: 6, y: 6, r: 6 },   // CHA
-            ],
-            backgroundColor: 'rgba(54, 162, 235, 0.5)',
-            borderColor: 'rgb(54, 162, 235)',
-            borderWidth: 1
-          }
-        ]
-      },
-      options: {
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: 'Stat Index'
-            },
-            ticks: {
-              callback: function(value) {
-                const labels = ['STR','DEX','CON','INT','WIS','CHA'];
-                return labels[value - 1] || value;
-              },
-              stepSize: 1,
-              min: 0,
-              max: 7
-            }
-          },
-          y: {
-            title: {
-              display: true,
-              text: 'Score'
-            },
-            min: 0,
-            max: 20
-          }
-        },
-        plugins: {
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                const stats = ['STR','DEX','CON','INT','WIS','CHA'];
-                return stats[context.raw.x - 1] + ': ' + context.raw.y;
-              }
-            }
-          }
-        }
-      }
-    });
+  <script>
+    const canvas = document.querySelector("canvas");
+    const ctx = canvas.getContext("2d");
+
+    const bubbles = [
+      { x: 300, y: 300 }, // center
+      { x: 300, y: 130 },
+      { x: 470, y: 200 },
+      { x: 470, y: 400 },
+      { x: 300, y: 470 },
+      { x: 130, y: 400 },
+      { x: 130, y: 200 }
+    ];
+
+    ctx.strokeStyle = "#333";
+    ctx.lineWidth = 2;
+
+    for (let i = 1; i < bubbles.length; i++) {
+      ctx.beginPath();
+      ctx.moveTo(bubbles[0].x, bubbles[0].y);
+      ctx.lineTo(bubbles[i].x, bubbles[i].y);
+      ctx.stroke();
+    }
   </script>
 </body>
 </html>
