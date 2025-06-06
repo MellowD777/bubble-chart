@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bubble Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <canvas id="myBubbleChart" width="400" height="400"></canvas>
+  <script>
+    const ctx = document.getElementById('myBubbleChart').getContext('2d');
+
+    const bubbleChart = new Chart(ctx, {
+      type: 'bubble',
+      data: {
+        datasets: [
+          {
+            label: 'Ability Scores',
+            data: [
+              { x: 1, y: 8, r: 5 },   // STR
+              { x: 2, y: 12, r: 10 }, // DEX
+              { x: 3, y: 12, r: 10 }, // CON
+              { x: 4, y: 4, r: 4 },   // INT
+              { x: 5, y: 10, r: 8 },  // WIS
+              { x: 6, y: 6, r: 6 },   // CHA
+            ],
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgb(54, 162, 235)',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Stat Index'
+            },
+            ticks: {
+              callback: function(value) {
+                const labels = ['STR','DEX','CON','INT','WIS','CHA'];
+                return labels[value - 1] || value;
+              },
+              stepSize: 1,
+              min: 0,
+              max: 7
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Score'
+            },
+            min: 0,
+            max: 20
+          }
+        },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const stats = ['STR','DEX','CON','INT','WIS','CHA'];
+                return stats[context.raw.x - 1] + ': ' + context.raw.y;
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
